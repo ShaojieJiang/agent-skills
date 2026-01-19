@@ -4,6 +4,7 @@ This directory contains AI agent skills used by this repository. Each skill
 defines how an AI agent should help with a specific workflow.
 
 ## How to use a skill
+- Use a slash command (e.g., `/orcheo`) to invoke the skill directly.
 - Ask for a skill by name in your request (e.g., "use the orcheo skill").
 - You can describe the task instead; an AI agent may pick a matching skill when
   it clearly applies.
@@ -15,29 +16,71 @@ defines how an AI agent should help with a specific workflow.
 - A request for confirmation before installs, upgrades, or starting services.
 
 ## Where the details live
-- Each skill lives in `skills/<skill_name>/`.
-- Read `skills/<skill_name>/SKILL.md` for the full workflow and requirements.
+- Each skill lives in `<skill_name>/` (e.g., `orcheo/`).
+- Read `<skill_name>/SKILL.md` for the full workflow and requirements.
 - Supporting files (like templates or compose files) live in
-  `skills/<skill_name>/assets/`.
+  `<skill_name>/assets/`.
 
 ## Install in common agents
-### Codex CLI
-- Copy or symlink this skill to your Codex skills folder:
-  - `mkdir -p ~/.codex/skills`
-  - `cp -R skills/orcheo ~/.codex/skills/`
-- Ask for it by name in your prompt (e.g., "use the orcheo skill").
 
 ### Claude Code
-- Add a note to `CLAUDE.md` telling Claude Code to read
-  `skills/orcheo/SKILL.md` when Orcheo tasks come up.
-- If you prefer, paste the relevant instructions from
-  `skills/orcheo/SKILL.md` directly into `CLAUDE.md`.
+Copy or symlink the skill to a Claude Code skills folder. Claude Code looks for
+skills in `~/.claude/skills/` (user-level) or `./.claude/skills/`
+(project-level).
+
+**macOS / Linux:**
+```bash
+# User-level (available in all projects)
+cp -R orcheo ~/.claude/skills/
+
+# Or project-level (available only in that project)
+cp -R orcheo .claude/skills/
+```
+
+**Windows (PowerShell):**
+```powershell
+# User-level
+Copy-Item -Recurse orcheo "$env:USERPROFILE\.claude\skills\"
+
+# Or project-level
+Copy-Item -Recurse orcheo ".claude\skills\"
+```
+
+Ask for the skill by name in your prompt (e.g., "use the orcheo skill").
+
+### Codex CLI
+Copy or symlink the skill to your Codex skills folder.
+
+**macOS / Linux:**
+```bash
+cp -R orcheo ~/.codex/skills/
+```
+
+**Windows (PowerShell):**
+```powershell
+Copy-Item -Recurse orcheo "$env:USERPROFILE\.codex\skills\"
+```
+
+Ask for it by name in your prompt (e.g., "use the orcheo skill").
 
 ### Cursor
-- Add a Project Rule that tells Cursor to read `skills/orcheo/SKILL.md`.
+- Add a Project Rule that tells Cursor to read `orcheo/SKILL.md`.
 - Or paste the relevant instructions into a rule file or the Rules UI.
 
 ## Tips for skill users
 - Share your OS, shell, and project path when it matters.
 - If you want a specific command run, include it verbatim.
 - For setup tasks, confirm whether you want global or project-local installs.
+- `uv` is recommended for Python package management (faster and more reliable).
+
+## Test Matrix
+
+### Orcheo Skill
+✓ = Tested and worked for at least one run
+✗ = Have not tested or tested but did not work
+
+| Agent       | No Orcheo | Orcheo w/o .env | Orcheo w/ .env |
+|-------------|-----------|-----------------|----------------|
+| Claude Code | ✓         | ✓               | ✓              |
+| Codex CLI   | ✓         | ✓               | ✓              |
+| Cursor      | ✗         | ✗               | ✗              |
