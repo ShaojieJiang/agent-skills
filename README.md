@@ -71,6 +71,7 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 - Share your OS, shell, and project path when it matters.
 - If you want a specific command run, include it verbatim.
 - For setup tasks, confirm whether you want global or project-local installs.
+- `uv` is recommended for Python package management (faster and more reliable).
 
 ## Test Matrix
 
@@ -81,5 +82,5 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 | Agent       | No Orcheo | Orcheo w/o .env | Orcheo w/ .env |
 |-------------|-----------|-----------------|----------------|
 | Claude Code | ✓         | ✓               | ✓              |
-| Codex CLI   | ✗         | ✓               | ✓              |
+| Codex CLI   | ✓         | ✓               | ✓              |
 | Cursor      | ✗         | ✗               | ✗              |

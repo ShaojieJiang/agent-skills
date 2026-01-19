@@ -105,6 +105,9 @@ Run Orcheo CLI commands via the `orcheo` executable from the SDK. Ask for the ex
      - **macOS/Linux**: `python -m pip install -U orcheo orcheo-backend orcheo-sdk`
      - **Windows**: `py -m pip install -U orcheo orcheo-backend orcheo-sdk`
 
+4. **If you encounter a connection error** (e.g., "Connection refused", "Failed to reach http://localhost:8000"):
+   - **NEVER** try alternative URLs or guess from env vars—ask the user if they want to start services with `docker compose -f "${SKILL_DIR}/assets/docker-compose.yml" up -d`, then retry.
+
 ```bash
 # Load env vars first, then run orcheo commands
 # SKILL_DIR should be set to the directory containing this SKILL.md file
