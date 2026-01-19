@@ -78,6 +78,8 @@ Run Orcheo CLI commands via the `orcheo` executable from the SDK. Ask for the ex
 
 ### Before running any `orcheo` command
 
+> **Note on `${SKILL_DIR}`**: Throughout this section, `${SKILL_DIR}` is a placeholder representing the absolute path to the directory containing this SKILL.md file. Agents should resolve this path before executing commands—either by using an environment variable if the skill runner provides one, or by programmatically determining the location of this SKILL.md file. Replace `${SKILL_DIR}` with the actual resolved path in all commands.
+
 1. **Check if `uv` is available**: Run `which uv` (macOS/Linux) or `where uv` (Windows) first to determine the package manager to use.
 
 2. **Handle `.env` file first**: The `.env` file must be stored in this skill's `assets/` directory. **Never use a `.env` file from the current working directory.** Use the `SKILL_DIR` placeholder (resolved by the skill runner) or determine the skill directory path explicitly. **Always load environment variables from `assets/.env` before running any `orcheo` command.**
@@ -97,7 +99,7 @@ Run Orcheo CLI commands via the `orcheo` executable from the SDK. Ask for the ex
      - **Bash/Zsh**: `export $(grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs)`
      - **Fish**: `export (grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs)`
      - **Windows PowerShell**: Load each line from `${SKILL_DIR}/assets/.env` as `$env:VAR=VALUE`
-   - **Important**: The `SKILL_DIR` variable should point to the directory containing this SKILL.md file. If not set, determine it by locating the `agent-skills/orcheo/` directory in the user's filesystem.
+   - **Important**: The `SKILL_DIR` variable should point to the directory containing this SKILL.md file. If not set, determine it by locating the directory containing this SKILL.md file in the user's filesystem.
 
 3. **Check if `orcheo` is installed** (after loading env vars):
    - **With uv (preferred)**: Run `uv run orcheo --help`. If it fails, install with `uv pip install -U orcheo orcheo-backend orcheo-sdk`
