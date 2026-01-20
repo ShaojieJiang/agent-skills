@@ -64,8 +64,7 @@ Copy-Item -Recurse orcheo "$env:USERPROFILE\.codex\skills\"
 Ask for it by name in your prompt (e.g., "use the orcheo skill").
 
 ### Cursor
-- Add a Project Rule that tells Cursor to read `orcheo/SKILL.md`.
-- Or paste the relevant instructions into a rule file or the Rules UI.
+- Cursor automatically detects skills in the project `.claude/skills/` and `.codex/skills/` folders, so add skills there as described above.
 
 ## Tips for skill users
 - Share your OS, shell, and project path when it matters.
@@ -79,8 +78,18 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 ✓ = Tested and worked for at least one run
 ✗ = Have not tested or tested but did not work
 
+#### macOS / Linux
+
 | Agent       | No Orcheo | Orcheo w/o .env | Orcheo w/ .env |
 |-------------|-----------|-----------------|----------------|
 | Claude Code | ✓         | ✓               | ✓              |
 | Codex CLI   | ✓         | ✓               | ✓              |
+| Cursor      | ✓         | ✓               | ✓              |
+
+#### Windows (TODO)
+
+| Agent       | No Orcheo | Orcheo w/o .env | Orcheo w/ .env |
+|-------------|-----------|-----------------|----------------|
+| Claude Code | ✗         | ✗               | ✗              |
+| Codex CLI   | ✗         | ✗               | ✗              |
 | Cursor      | ✗         | ✗               | ✗              |
