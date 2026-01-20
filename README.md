@@ -75,21 +75,21 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 ## Test Matrix
 
 ### Orcheo Skill
-✓ = Tested and worked for at least one run
-✗ = Have not tested or tested but did not work
+✅ = Tested and worked for at least one run
+❌ = Have not tested or tested but did not work
 
 #### macOS / Linux
 
 | Agent       | No Orcheo | Orcheo w/o .env | Orcheo w/ .env |
 |-------------|-----------|-----------------|----------------|
-| Claude Code | ✓         | ✓               | ✓              |
-| Codex CLI   | ✓         | ✓               | ✓              |
-| Cursor      | ✓         | ✓               | ✓              |
+| Claude Code | ✅         | ✅               | ✅              |
+| Codex CLI   | ✅         | ✅               | ✅              |
+| Cursor      | ✅         | ✅               | ✅              |
 
 #### Windows (TODO)
 
 | Agent       | No Orcheo | Orcheo w/o .env | Orcheo w/ .env |
 |-------------|-----------|-----------------|----------------|
-| Claude Code | ✗         | ✗               | ✗              |
-| Codex CLI   | ✗         | ✗               | ✗              |
-| Cursor      | ✗         | ✗               | ✗              |
+| Claude Code | ❌         | ❌               | ❌              |
+| Codex CLI   | ❌         | ❌               | ❌              |
+| Cursor      | ❌         | ❌               | ❌              |
