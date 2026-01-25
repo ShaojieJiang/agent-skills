@@ -34,6 +34,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.orcheo
+    env_file: .env
     ports:
       - "8000:8000"
     volumes:
@@ -69,6 +70,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.orcheo
+    env_file: .env
     volumes:
       - orcheo_data:/data
       - ./chatkit_widgets:/app/examples/chatkit_widgets/widgets:ro
@@ -100,6 +102,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.orcheo
+    env_file: .env
     volumes:
       - orcheo_data:/data
       - ./chatkit_widgets:/app/examples/chatkit_widgets/widgets:ro
@@ -131,6 +134,7 @@ services:
   canvas:
     image: node:20-alpine
     working_dir: /app
+    env_file: .env
     ports:
       - "5173:5173"
     environment:
