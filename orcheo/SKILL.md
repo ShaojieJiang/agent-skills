@@ -7,22 +7,17 @@ description: Install Orcheo Python packages and Canvas from PyPI/npm, start Orch
 
 ## Overview
 
-Install Orcheo core, backend, and SDK from the latest PyPI packages, install the Canvas UI from npm, start services with docker compose when explicitly requested, and execute Orcheo CLI commands. Do not assume the user has the Orcheo source repo; use the bundled compose asset or ask for any required compose file or deployment details. Only support PyPI-based images/installs for compose setups. Prefer minimal, copy-pasteable commands and confirm OS, Python, and node/npm availability if not stated. Always ask for confirmation before installing/upgrading packages, changing compose files, or starting the Orcheo stack.
+Install Orcheo core and backend from the latest PyPI packages with uv, install the Orcheo CLI via `uv tool install orcheo-sdk`, install the Canvas UI from npm, start services with docker compose when explicitly requested, and execute Orcheo CLI commands. Do not assume the user has the Orcheo source repo; use the bundled compose asset or ask for any required compose file or deployment details. Only support PyPI-based images/installs for compose setups. Prefer minimal, copy-pasteable commands and confirm OS, Python, and node/npm availability if not stated. Always ask for confirmation before installing/upgrading packages, changing compose files, or starting the Orcheo stack. uv is required for Orcheo installs and CLI usage; ask the user to install uv first if it is missing.
 
 ## Install Orcheo (PyPI)
 
-Use a virtual environment when possible, then install or upgrade all three packages together. Default to the latest PyPI releases.
+Use a virtual environment when possible, then install or upgrade Orcheo core and backend together. Default to the latest PyPI releases. Install the `orcheo` CLI using uv's tool installer.
 
 Ask for confirmation before running any install/upgrade command.
 
 ```bash
-python -m pip install -U orcheo orcheo-backend orcheo-sdk
-```
-
-If the user prefers uv, use this equivalent:
-
-```bash
-uv pip install -U orcheo orcheo-backend orcheo-sdk
+uv pip install -U orcheo orcheo-backend
+uv tool install orcheo-sdk
 ```
 
 Verify the CLI is available:
@@ -80,9 +75,9 @@ Run Orcheo CLI commands via the `orcheo` executable from the SDK. Ask for the ex
 
 > **Note on `${SKILL_DIR}`**: Throughout this section, `${SKILL_DIR}` is a placeholder representing the absolute path to the directory containing this SKILL.md file. Agents should resolve this path before executing commands—either by using an environment variable if the skill runner provides one, or by programmatically determining the location of this SKILL.md file. Replace `${SKILL_DIR}` with the actual resolved path in all commands.
 
-1. **Check if `uv` is available**: Run `which uv` (macOS/Linux) or `where uv` (Windows) first to determine the package manager to use.
+1. **Check if `uv` is available**: Run `which uv` (macOS/Linux) or `where uv` (Windows). If uv is missing, ask the user to install it before proceeding. All Orcheo installs and CLI usage rely on uv.
 
-2. **Handle `.env` file first**: The `.env` file must be stored in this skill's `assets/` directory. **Never use a `.env` file from the current working directory.** Use the `SKILL_DIR` placeholder (resolved by the skill runner) or determine the skill directory path explicitly. **Always load environment variables from `assets/.env` before running any `orcheo` command.**
+2. **Handle `.env` file first**: The `.env` file must be stored in this skill's `assets/` directory. **Never use a `.env` file from the current working directory.** Use the `SKILL_DIR` placeholder (resolved by the skill runner) or determine the skill directory path explicitly. After the file is created and configured, you will run `orcheo config` once to write CLI profiles to `~/.config/orcheo/cli.toml`, so you do not need to export the `.env` variables for every command.
    - **If `assets/.env` is missing**: You MUST create it by copying `assets/.env.example` to `assets/.env`. Use the appropriate command for the OS:
      - **macOS/Linux**: `cp "${SKILL_DIR}/assets/.env.example" "${SKILL_DIR}/assets/.env"`
      - **Windows**: `copy "${SKILL_DIR}\assets\.env.example" "${SKILL_DIR}\assets\.env"`
@@ -95,33 +90,23 @@ Run Orcheo CLI commands via the `orcheo` executable from the SDK. Ask for the ex
    - **CRITICAL: STOP AND ASK THE USER** - You MUST use the AskUserQuestion tool to ask the user if they want to configure these values now or come back later. **DO NOT proceed with any orcheo commands until the user has either configured the secrets or explicitly chosen to skip.** The default template values (`change-me`, `replace-with-64-hex-chars`, etc.) will NOT work for most operations.
      - If the user wants to configure now: Help them edit the `.env` file with their actual values before proceeding.
      - If the user wants to come back later: **STOP HERE.** Remind them to run the orcheo skill again after configuring the `.env` file. Do not attempt to run any orcheo commands with placeholder values.
-   - **Load environment variables before any orcheo command** (using the skill's assets directory):
-     - **Bash/Zsh**: `export $(grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs)`
-     - **Fish**: `export (grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs)`
-     - **Windows PowerShell**: Load each line from `${SKILL_DIR}/assets/.env` as `$env:VAR=VALUE`
    - **Important**: The `SKILL_DIR` variable should point to the directory containing this SKILL.md file. If not set, determine it by locating the directory containing this SKILL.md file in the user's filesystem.
 
-3. **Check if `orcheo` is installed** (after loading env vars):
-   - **With uv (preferred)**: Run `uv run orcheo --help`. If it fails, install with `uv pip install -U orcheo orcheo-backend orcheo-sdk`
-   - **Without uv (fallback)**: Run `orcheo --help`. If the command is not found, install using:
-     - **macOS/Linux**: `python -m pip install -U orcheo orcheo-backend orcheo-sdk`
-     - **Windows**: `py -m pip install -U orcheo orcheo-backend orcheo-sdk`
+3. **Check if `orcheo` is installed** (after creating `.env`): Run `orcheo --help`. If it fails, install with `uv tool install orcheo-sdk`, then retry.
 
-4. **If you encounter a connection error** (e.g., "Connection refused", "Failed to reach http://localhost:8000"):
+4. **Configure CLI profiles once** (after `orcheo` is installed and `.env` is ready): Run `orcheo config` pointing at the skill `.env` file. This writes `~/.config/orcheo/cli.toml` and removes the need to export `.env` variables before each command. Use `--profile` to write additional profiles (repeatable). If you want a CLI service token stored, add `ORCHEO_SERVICE_TOKEN` to the `.env` file or pass `--service-token`. Re-run this if the `.env` values change.
+
+5. **If you encounter a connection error** (e.g., "Connection refused", "Failed to reach http://localhost:8000"):
    - **NEVER** try alternative URLs or guess from env vars—ask the user if they want to start services with `docker compose -f "${SKILL_DIR}/assets/docker-compose.yml" up -d`, then retry.
 
 ```bash
-# Load env vars first, then run orcheo commands
+# Configure profiles once, then run orcheo commands without exporting env vars
 # SKILL_DIR should be set to the directory containing this SKILL.md file
 # Example: SKILL_DIR="/path/to/agent-skills/orcheo"
 
-# With uv (preferred)
-export $(grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs) && uv run orcheo --help
-export $(grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs) && uv run orcheo <command> --help
-
-# Without uv (fallback)
-export $(grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs) && orcheo --help
-export $(grep -v '^#' "${SKILL_DIR}/assets/.env" | grep -v '^$' | xargs) && orcheo <command> --help
+orcheo config --env-file "${SKILL_DIR}/assets/.env"
+orcheo --help
+orcheo <command> --help
 ```
 
 ## Resources
