@@ -1,4 +1,7 @@
 name: orcheo
+# Note: Services using 'env_file: .env' load variables from .env file.
+# Environment variables explicitly defined in the 'environment' section take precedence
+# over those from env_file. This allows overriding .env values when needed.
 services:
   postgres:
     image: postgres:16-alpine
