@@ -48,7 +48,7 @@ Copy-Item -Recurse orcheo "$env:USERPROFILE\.claude\skills\"
 Copy-Item -Recurse orcheo ".claude\skills\"
 ```
 
-Ask for the skill by name in your prompt (e.g., "use the orcheo skill").
+Ask for the skill by name in your prompt (e.g., "use the orcheo skill" or "use the orcheo-demos skill").
 
 ### Codex CLI
 Copy or symlink the skill to your Codex skills folder.
@@ -76,9 +76,10 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 
 ## Test Matrix
 
-### Orcheo Skill
 ✅ = Tested and worked for at least one run
 ❌ = Have not tested or tested but did not work
+
+### Orcheo Skill
 
 #### macOS / Linux
 
@@ -95,3 +96,21 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 | Claude Code | ❌         | ❌               | ❌              |
 | Codex CLI   | ❌         | ❌               | ❌              |
 | Cursor      | ❌         | ❌               | ❌              |
+
+### Orcheo-Demos Skill
+
+#### macOS / Linux
+
+| Agent       | Demo 1 | Demo 2 | Demo 3-5 |
+|-------------|--------|--------|----------|
+| Claude Code | ❌      | ❌      | ❌        |
+| Codex CLI   | ❌      | ❌      | ❌        |
+| Cursor      | ❌      | ❌      | ❌        |
+
+#### Windows (TODO)
+
+| Agent       | Demo 1 | Demo 2 | Demo 3-5 |
+|-------------|--------|--------|----------|
+| Claude Code | ❌      | ❌      | ❌        |
+| Codex CLI   | ❌      | ❌      | ❌        |
+| Cursor      | ❌      | ❌      | ❌        |
