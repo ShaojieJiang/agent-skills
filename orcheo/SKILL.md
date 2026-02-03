@@ -110,8 +110,14 @@ Run Orcheo CLI commands via the `orcheo` executable from the SDK. Ask for the ex
    - `--env-file <path>`: Path to the `.env` file (defaults to searching for `.env` in current directory)
    - `--profile <name>`: Named profile for the configuration (default profile is used if omitted)
    - `--service-token <token>`: Service token for authentication with remote Orcheo instances
+   - `--auth-issuer <url>`: OAuth issuer URL to store in the CLI profile
+   - `--auth-client-id <id>`: OAuth client ID to store in the CLI profile
+   - `--auth-scopes <scopes>`: OAuth scopes to store in the CLI profile
+   - `--auth-audience <audience>`: OAuth audience to store in the CLI profile
+   - `--auth-organization <org>`: OAuth organization to store in the CLI profile
 
    Service tokens are used for authenticating with remote Orcheo API instances. If you need to store a service token in the CLI configuration, either add `ORCHEO_SERVICE_TOKEN` to your `.env` file or pass `--service-token` directly to the `orcheo config` command.
+   OAuth login for `orcheo auth login` reads `ORCHEO_AUTH_ISSUER` and `ORCHEO_AUTH_CLIENT_ID` from `~/.config/orcheo/cli.toml` first. Add those keys to your `.env` file or pass `--auth-issuer` and `--auth-client-id` to `orcheo config` so they are persisted.
 
    Re-run `orcheo config` if the `.env` values change.
 
