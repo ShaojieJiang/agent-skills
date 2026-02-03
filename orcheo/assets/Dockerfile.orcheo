@@ -17,4 +17,6 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 RUN printf '%s\n' '#!/bin/sh' 'exec uv tool run "$@"' > /usr/local/bin/uvx \
     && chmod +x /usr/local/bin/uvx
 
-RUN uv pip install --system --no-cache -U orcheo orcheo-backend orcheo-sdk
+ARG ORCHEO_PIP_BUST=0
+RUN echo "cache_bust=${ORCHEO_PIP_BUST}" \
+    && uv pip install --system --no-cache -U orcheo orcheo-backend orcheo-sdk

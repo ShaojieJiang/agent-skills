@@ -37,6 +37,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.orcheo
+      args:
+        ORCHEO_PIP_BUST: ${ORCHEO_PIP_BUST:-1}
     env_file: .env
     ports:
       - "8000:8000"
@@ -73,6 +75,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.orcheo
+      args:
+        ORCHEO_PIP_BUST: ${ORCHEO_PIP_BUST:-1}
     env_file: .env
     volumes:
       - orcheo_data:/data
@@ -105,6 +109,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.orcheo
+      args:
+        ORCHEO_PIP_BUST: ${ORCHEO_PIP_BUST:-1}
     env_file: .env
     volumes:
       - orcheo_data:/data
