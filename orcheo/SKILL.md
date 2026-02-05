@@ -56,9 +56,10 @@ Only use docker compose when the user explicitly requests a containerized setup.
 
 Ask for confirmation before starting or stopping any services.
 
-If the user already has a `docker-compose.yml`, run commands from its directory and confirm services are up:
+When building images, always use `--no-cache` to ensure the latest Orcheo packages are pulled from PyPI:
 
 ```bash
+docker compose build --no-cache
 docker compose up -d
 docker compose ps
 ```
