@@ -56,7 +56,7 @@ Only use docker compose when the user explicitly requests a containerized setup.
 
 Ask for confirmation before starting or stopping any services.
 
-When building images, always use `--no-cache` to ensure the latest Orcheo packages are pulled from PyPI:
+When building images, always use `--no-cache` to ensure the latest Orcheo packages are pulled from PyPI. Run these commands from the directory containing the target `docker-compose.yml`, or pass `-f /path/to/docker-compose.yml` explicitly when the file is elsewhere:
 
 ```bash
 docker compose build --no-cache
