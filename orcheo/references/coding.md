@@ -2,7 +2,7 @@
 
 Use `orcheo code` to generate workflow or node scaffolds.
 When unsure of the available options, use the `--help` flag to see all available options.
-When writing code, don't use or declare private attributes (those starting with `_`).
+When writing code, don't use or declare private attributes (those starting with `_`) as these are not supported by the Orcheo runtime.
 
 ## Install the Orcheo library
 
