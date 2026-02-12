@@ -11,7 +11,7 @@ Ask the user for the following values:
 - `--api-url` (always required)
 - one of:
   - `--service-token`
-  - `--auth-issuer` and `--auth-client-id`
+  - `--auth-issuer` and `--auth-client-id` and `--auth-audience`
 
 ## Optional values
 
