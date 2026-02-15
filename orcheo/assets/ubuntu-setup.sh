@@ -55,6 +55,7 @@ install_cloudflared() {
     echo "ERROR: Cloudflare GPG fingerprint mismatch"
     echo "Expected: $CLOUDFLARE_GPG_FINGERPRINT"
     echo "Actual:   $actual_fingerprint"
+    sudo rm -f "$CLOUDFLARE_KEYRING"
     exit 1
   fi
 
@@ -65,11 +66,7 @@ install_cloudflared() {
   sudo apt update
   sudo apt install -y cloudflared
 
-  if sudo systemctl list-unit-files | awk '{print $1}' | grep -Fxq cloudflared.service; then
-    echo "cloudflared service is already installed, skipping service install"
-  else
-    sudo cloudflared service install "$CLOUDFLARED_TOKEN"
-  fi
+  sudo cloudflared service install "$CLOUDFLARED_TOKEN"
 }
 
 upsert_bashrc_setting() {
@@ -130,9 +127,14 @@ install_uv_and_orcheo_sdk() {
   fi
 
   local uv_bin
-  uv_bin="${HOME}/.local/bin/uv"
-  if [[ ! -x "$uv_bin" ]]; then
+  if [[ -x "${HOME}/.local/bin/uv" ]]; then
+    uv_bin="${HOME}/.local/bin/uv"
+  elif command -v uv >/dev/null 2>&1; then
     uv_bin="$(command -v uv)"
+  else
+    echo "ERROR: uv installation failed or uv is not in PATH"
+    echo "Tried: ${HOME}/.local/bin/uv and PATH"
+    exit 1
   fi
 
   "$uv_bin" tool install -U orcheo-sdk
