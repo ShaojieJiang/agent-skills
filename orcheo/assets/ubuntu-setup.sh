@@ -78,6 +78,7 @@ download_agent_skills_main() {
 
 install_uv_and_orcheo_sdk() {
   curl -LsSf https://astral.sh/uv/install.sh | sh
+  source $BASHRC
   uv tool install -U orcheo-sdk
 }
 
