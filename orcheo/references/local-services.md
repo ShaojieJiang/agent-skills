@@ -2,23 +2,37 @@
 
 ## Compose assets
 
-Use bundled assets:
-- [assets/docker-compose.yml](../assets/docker-compose.yml)
-- [assets/Dockerfile.orcheo](../assets/Dockerfile.orcheo)
-- [assets/.env.example](../assets/.env.example)
+Preferred source: `orcheo install` syncs stack assets into
+`${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}` and uses the versioned
+`stack-v*` release archive when available (with per-file fallback).
 
 ## Environment setup (required before `docker compose up`)
 
-The `.env` file must be stored in this skill's [assets](../assets/) directory.
-Do not use a project-local `.env` from the current working directory.
-
-`SKILL_DIR` should resolve to the directory containing this skill's [SKILL.md](../SKILL.md).
-
-If [assets/.env](../assets/.env) is missing, create it from template:
+Preferred path (recommended):
 
 ```bash
-cp "${SKILL_DIR}/assets/.env.example" "${SKILL_DIR}/assets/.env"
+orcheo install --yes --start-local-stack
 ```
+
+This command installs SDK/backend tooling, provisions local-stack assets into
+`${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}`, creates `.env` from `.env.example` if missing,
+and starts Docker Compose using that project directory.
+
+Manual path (only if explicit compose control is required):
+
+```bash
+STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
+STACK_VERSION="${ORCHEO_STACK_VERSION:?set ORCHEO_STACK_VERSION (for example: 0.8.3)}"
+mkdir -p "$STACK_DIR"
+curl -fsSL "https://github.com/ShaojieJiang/orcheo/releases/download/stack-v${STACK_VERSION}/orcheo-stack.tar.gz" \
+  -o "$STACK_DIR/orcheo-stack.tar.gz"
+tar -xzf "$STACK_DIR/orcheo-stack.tar.gz" -C "$STACK_DIR"
+cp -n "$STACK_DIR/.env.example" "$STACK_DIR/.env"
+rm -f "$STACK_DIR/orcheo-stack.tar.gz"
+```
+
+Manual sync should pin to an explicit stack version (for example `STACK_VERSION=0.8.3`)
+instead of pulling mutable `main` branch files.
 
 Required secrets to replace before starting local services:
 - `ORCHEO_POSTGRES_PASSWORD`
@@ -30,12 +44,14 @@ If these still use template values (`change-me`, `replace-with-64-hex-chars`, et
 
 ## Bring up stack
 
-Run from the directory containing the compose file, or pass `-f` explicitly.
+Run from `${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}`, or pass `-f` and `--project-directory`
+explicitly.
 
 ```bash
-docker compose build --no-cache
-docker compose up -d
-docker compose ps
+STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" build --no-cache
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" up -d
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" ps
 ```
 
 ## Expected service names
@@ -50,19 +66,22 @@ docker compose ps
 ## Logs
 
 ```bash
-docker compose logs -f backend
-docker compose logs -f worker
-docker compose logs -f celery-beat
-docker compose logs -f canvas
+STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" logs -f backend
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" logs -f worker
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" logs -f celery-beat
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" logs -f canvas
 ```
 
 ## Stop stack
 
 ```bash
-docker compose down
+STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" down
 ```
 
 ## Notes
 
 - Use PyPI-based images only (this compose builds backend from PyPI packages).
-- Confirm [assets/.env](../assets/.env) exists before `up`.
+- Confirm `${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}/.env` exists before `up`.
+- If reproducibility matters, pass `--stack-version <X.Y.Z>` to `orcheo install`.
