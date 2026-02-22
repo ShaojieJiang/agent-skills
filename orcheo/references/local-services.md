@@ -1,38 +1,32 @@
-# Start Orcheo local services
+# Start Orcheo stack services
 
 ## Compose assets
 
 Preferred source: `orcheo install` syncs stack assets into
-`${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}` and uses the versioned
-`stack-v*` release archive when available (with per-file fallback).
+`${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}` and uses versioned `stack-v*`
+tag assets when available (with main-branch fallback).
 
 ## Environment setup (required before `docker compose up`)
 
 Preferred path (recommended):
 
 ```bash
-orcheo install --yes --start-local-stack
+orcheo install --yes --start-stack
 ```
 
-This command installs SDK/backend tooling, provisions local-stack assets into
+This command installs SDK/backend tooling, provisions stack assets into
 `${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}`, creates `.env` from `.env.example` if missing,
 and starts Docker Compose using that project directory.
 
 Manual path (only if explicit compose control is required):
 
 ```bash
-STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
 STACK_VERSION="${ORCHEO_STACK_VERSION:?set ORCHEO_STACK_VERSION (for example: 0.8.3)}"
-mkdir -p "$STACK_DIR"
-curl -fsSL "https://github.com/ShaojieJiang/orcheo/releases/download/stack-v${STACK_VERSION}/orcheo-stack.tar.gz" \
-  -o "$STACK_DIR/orcheo-stack.tar.gz"
-tar -xzf "$STACK_DIR/orcheo-stack.tar.gz" -C "$STACK_DIR"
-cp -n "$STACK_DIR/.env.example" "$STACK_DIR/.env"
-rm -f "$STACK_DIR/orcheo-stack.tar.gz"
+orcheo install --yes --stack-version "$STACK_VERSION" --skip-stack
 ```
 
-Manual sync should pin to an explicit stack version (for example `STACK_VERSION=0.8.3`)
-instead of pulling mutable `main` branch files.
+Manual sync should pin to an explicit stack version (for example
+`STACK_VERSION=0.8.3`).
 
 Required secrets to replace before starting local services:
 - `ORCHEO_POSTGRES_PASSWORD`
@@ -49,7 +43,7 @@ explicitly.
 
 ```bash
 STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
-docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" build --no-cache
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" pull
 docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" up -d
 docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" ps
 ```

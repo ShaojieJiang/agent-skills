@@ -10,7 +10,7 @@ orcheo --version
 ```
 2. If `orcheo` is missing, install it:
 ```bash
-curl -fsSL https://ai-colleagues.com/install.sh | sh -s -- --yes --start-local-stack
+curl -fsSL https://ai-colleagues.com/install.sh | sh -s -- --yes --start-stack
 orcheo --version
 ```
 3. `uv` is not a required manual prerequisite for this flow. The installer handles its own internal dependencies.
@@ -31,7 +31,7 @@ orcheo config --check
 
 ### Local mode checks
 
-1. Verify local stack status from the compose project directory:
+1. Verify stack status from the compose project directory:
 ```bash
 STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
 docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" ps
