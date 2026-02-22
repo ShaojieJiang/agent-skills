@@ -14,7 +14,7 @@ orcheo --version
 ```
 3. If `orcheo` is missing, install it:
 ```bash
-uv tool install -U orcheo-sdk
+curl -fsSL https://ai-colleagues.com/install.sh | sh -s -- --yes --skip-local-stack
 orcheo --version
 ```
 
@@ -36,9 +36,10 @@ orcheo config --check
 
 1. Verify local stack status from the compose project directory:
 ```bash
-docker compose ps
+STACK_DIR="${ORCHEO_STACK_DIR:-$HOME/.orcheo/stack}"
+docker compose -f "$STACK_DIR/docker-compose.yml" --project-directory "$STACK_DIR" ps
 ```
-2. Expected service names for the bundled asset compose:
+2. Expected service names for the `orcheo install`-managed stack compose:
 - `backend`
 - `canvas`
 - `celery-beat`

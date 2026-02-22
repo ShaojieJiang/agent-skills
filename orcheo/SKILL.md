@@ -1,6 +1,6 @@
 ---
 name: orcheo
-description: Bootstrap Orcheo CLI usage, configure profiles, run local Orcheo services with the bundled PyPI-based docker compose assets, and execute common `orcheo` workflow/credential/coding operations.
+description: Bootstrap Orcheo CLI usage, configure profiles, set up local Orcheo services, and execute common `orcheo` workflow/credential/coding operations.
 ---
 
 # Orcheo
