@@ -2,9 +2,9 @@
 
 ## Workflow uploading or running issues
 
-Orcheo validates uploaded LangGraph scripts in a RestrictedPython sandbox
-(`src/orcheo/graph/ingestion/sandbox.py`). Rejections usually mean the script uses
-syntax, imports, or runtime behavior outside the sandbox policy.
+Orcheo validates uploaded LangGraph scripts in a RestrictedPython sandbox.
+Rejections usually mean the script uses syntax, imports, or runtime behavior
+outside the sandbox policy.
 
 What is allowed:
 - Python code compiled with RestrictedPython plus async functions, `await`, and
@@ -27,5 +27,9 @@ How to fix common failures:
   allow-listed module or move the logic into Orcheo/server-side code.
 - `Relative imports are not supported`: change to absolute imports from an
   allow-listed package.
-- `execution timed out`: reduce per-step work, split the graph into smaller
-  nodes, or move long-running logic outside ingestion-time script execution.
+- `script exceeds size limit` (wording may vary): remove dead code, trim large
+  constants/embedded assets, and move bulky data or helper logic into
+  versioned modules imported from allow-listed packages.
+- Timeout errors (for example `execution timed out`): reduce per-step work,
+  split the graph into smaller nodes, or move long-running logic outside
+  ingestion-time script execution.
