@@ -8,14 +8,7 @@ Use this file as the required first-step runbook before any task-specific Orcheo
 ```bash
 orcheo --version
 ```
-2. If `orcheo` is missing, install it:
-- macOS:
-```bash
-bash <(curl -fsSL https://ai-colleagues.com/install.sh) --yes --start-stack
-orcheo --version
-```
-
-- Linux:
+2. If `orcheo` is missing, install it (macOS / Linux):
 ```bash
 curl -fsSL https://ai-colleagues.com/install.sh | sh -s -- --yes --start-stack
 orcheo --version

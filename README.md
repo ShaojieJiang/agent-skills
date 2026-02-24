@@ -89,7 +89,7 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 | Codex CLI   | ✅         | ✅               | ✅              |
 | Cursor      | ✅         | ✅               | ✅              |
 
-#### Windows (TODO)
+#### Windows (Not yet tested)
 
 | Agent       | No Orcheo | Orcheo w/o .env | Orcheo w/ .env |
 |-------------|-----------|-----------------|----------------|
@@ -107,7 +107,7 @@ Ask for it by name in your prompt (e.g., "use the orcheo skill").
 | Codex CLI   | ❌      | ❌      | ❌        |
 | Cursor      | ❌      | ❌      | ❌        |
 
-#### Windows (TODO)
+#### Windows (Not yet tested)
 
 | Agent       | Demo 1 | Demo 2 | Demo 3-5 |
 |-------------|--------|--------|----------|
