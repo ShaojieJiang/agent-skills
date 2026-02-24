@@ -15,11 +15,8 @@ When you need command details, use `orcheo --help` or `orcheo <subcommand> --hel
 
 ## Reference map
 
-- [REFERENCE.md](./references/REFERENCE.md)
-- [config.md](./references/config.md)
-- [local-services.md](./references/local-services.md)
-- [operations.md](./references/operations.md)
-- [coding.md](./references/coding.md)
+Use [REFERENCE.md](./references/REFERENCE.md) as the index of all Orcheo skill
+guides, then open only the specific page needed for the current user request.
 
 ## Scope and rules
 
